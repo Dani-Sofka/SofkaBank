@@ -1,6 +1,8 @@
 package entities;
 
-public class Account {
+import interfaces.AccountDetails;
+
+public class Account implements AccountDetails {
 
     private String id;
     private String accountHolder;
@@ -32,7 +34,8 @@ public class Account {
         return status;
     }
 
-    public void closeAccount(){
+    @Override
+    public void closeAccount() {
         this.status = "Closed";
     }
 }

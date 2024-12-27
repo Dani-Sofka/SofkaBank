@@ -20,21 +20,37 @@ public class Main {
         bankAccount.put(account3.getId(), account3);
         bankAccount.put(account4.getId(), account4);
 
-        displayAccountDetails(bankAccount);
-
         account1.deposit(150);
+        System.out.println("-----------------------------------");
+        System.out.println("Cuentas después del depósito");
+        System.out.println("-----------------------------------");
         displayAccountDetails(bankAccount);
 
-        account2.deposit(150);
+        account1.deposit(50);
+        System.out.println("-----------------------------------");
+        System.out.println("Cuentas después del depósito");
+        System.out.println("-----------------------------------");
         displayAccountDetails(bankAccount);
 
         account1.withdraw(100);
+        System.out.println("-----------------------------------");
+        System.out.println("Cuentas después del retiro");
+        System.out.println("-----------------------------------");
+        displayAccountDetails(bankAccount);
+
+        account1.withdraw(0);
+        System.out.println("-----------------------------------");
+        System.out.println("Cuentas después del retiro");
+        System.out.println("-----------------------------------");
         displayAccountDetails(bankAccount);
 
         account1.closeAccount();
+        System.out.println("-----------------------------------");
+        System.out.println("Cuentas después del cierre");
+        System.out.println("-----------------------------------");
         displayAccountDetails(bankAccount);
-
     }
+
     private static void displayAccountDetails(Map<String, BankAccount> bankAccount) {
         bankAccount.forEach((id, account) -> {
             System.out.println("Account ID: " + id);

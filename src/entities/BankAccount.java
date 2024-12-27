@@ -1,9 +1,8 @@
 package entities;
 
-import interfaces.AccountDetails;
 import interfaces.AccountOperations;
 
-public class BankAccount extends Account implements AccountDetails, AccountOperations {
+public class BankAccount extends Account implements AccountOperations {
     private double balance;
 
     public BankAccount(){}
