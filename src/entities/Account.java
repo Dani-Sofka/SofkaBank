@@ -13,11 +13,7 @@ public class Account {
         this.id = id;
         this.accountHolder = accountHolder;
         this.accountType = accountType;
-        this.status = "Active";
-    }
-
-    public Account(String id, String accountHolder, String accountType) {
-        super();
+        this.status = status;
     }
 
     public String getId(){
