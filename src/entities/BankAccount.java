@@ -52,8 +52,6 @@ public class BankAccount extends Account implements AccountOperations {
     }
 
     private void notifyObservers(String message){
-        for (AccountObserver observer : observers) {
-            observer.update(message);
-        }
+        observers.forEach(observe -> observe.update(message));
     }
 }
