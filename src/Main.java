@@ -1,4 +1,7 @@
 import entities.BankAccount;
+import entities.CheckingAccountFactory;
+import entities.SavingsAccountFactory;
+import patterns.factory.AccountFactory;
 import patterns.singleton.AccountManager;
 
 import java.util.HashMap;
@@ -9,8 +12,11 @@ public class Main {
 
         String status = "Active";
 
-        BankAccount account1 = new BankAccount("123da", "Daniel Rúa", "savings", status, 0);
-        BankAccount account2 = new BankAccount("123al", "Alejandra Villa", "checking", status,0);
+        AccountFactory savingFactory = new SavingsAccountFactory();
+        AccountFactory checkingFactory = new CheckingAccountFactory();
+
+        BankAccount account1 = savingFactory.createAccount("123da", "Daniel Rúa", "savings", status, 0);
+        BankAccount account2 = checkingFactory.createAccount("123al", "Alejandra Villa", "checking", status,0);
 
         AccountManager accountManager = AccountManager.getInstance();
 
