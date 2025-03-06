@@ -1,9 +1,14 @@
 package entities;
 
 import interfaces.AccountOperations;
+import patterns.obverser.AccountObserver;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BankAccount extends Account implements AccountOperations {
     private double balance;
+    private List<AccountObserver> observers = new ArrayList<>();
 
     public BankAccount(){}
 
@@ -26,6 +31,7 @@ public class BankAccount extends Account implements AccountOperations {
     public void withdraw(double amount) {
         if (amount > 0 && amount <= balance){
             balance -= amount;
+            notifyObservers("Se ha realizado un retiro de " + amount);
         } else {
             System.out.println("No sé puede retirar el valor solicitado");
         }
@@ -39,5 +45,13 @@ public class BankAccount extends Account implements AccountOperations {
     @Override
     public void closeAccount() {
         super.closeAccount();
+    }
+
+    public void registerObserver(AccountObserver observer){
+        observers.add(observer);
+    }
+
+    private void notifyObservers(String message){
+        observers.forEach(observe -> observe.update(message));
     }
 }

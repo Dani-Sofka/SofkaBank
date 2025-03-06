@@ -1,4 +1,9 @@
+import entities.AccountObserverBank;
 import entities.BankAccount;
+import entities.CheckingAccountFactory;
+import entities.SavingsAccountFactory;
+import patterns.factory.AccountFactory;
+import patterns.singleton.AccountManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,57 +13,43 @@ public class Main {
 
         String status = "Active";
 
-        Map<String, BankAccount> bankAccount = new HashMap<>();
+        /**
+         * Se usa el patron de diseño Factory para la creación de objetos.
+         */
+        AccountFactory savingFactory = new SavingsAccountFactory();
+        AccountFactory checkingFactory = new CheckingAccountFactory();
+        BankAccount account1 = savingFactory.createAccount("123da", "Daniel Rúa", "savings", status, 0);
+        BankAccount account2 = checkingFactory.createAccount("123al", "Alejandra Villa", "checking", status,0);
 
-        BankAccount account1 = new BankAccount("123da", "Daniel Rúa", "savings", status, 100);
-        BankAccount account2 = new BankAccount("123al", "Alejandra Villa", "checking", status,100);
-        BankAccount account3 = new BankAccount("123pa", "Paco Villa", "checking", status,100);
-        BankAccount account4 = new BankAccount("123li", "Lila Villa", "savings", status,100);
 
-        bankAccount.put(account1.getId(), account1);
-        bankAccount.put(account2.getId(), account2);
-        bankAccount.put(account3.getId(), account3);
-        bankAccount.put(account4.getId(), account4);
+        /**
+         * Se usa el patron de diseño Observer para la notificación de eventos.
+         */
+        AccountObserverBank observer1 = new AccountObserverBank("observer1");
+        AccountObserverBank observer2 = new AccountObserverBank("observer2");
+        account1.registerObserver(observer1);
+        account2.registerObserver(observer2);
 
+
+        /**
+         * Se realizan operaciones.
+         */
         account1.deposit(150);
-        System.out.println("-----------------------------------");
-        System.out.println("Cuentas después del depósito");
-        System.out.println("-----------------------------------");
-        displayAccountDetails(bankAccount);
-
-        account1.deposit(50);
-        System.out.println("-----------------------------------");
-        System.out.println("Cuentas después del depósito");
-        System.out.println("-----------------------------------");
-        displayAccountDetails(bankAccount);
-
         account1.withdraw(100);
-        System.out.println("-----------------------------------");
-        System.out.println("Cuentas después del retiro");
-        System.out.println("-----------------------------------");
-        displayAccountDetails(bankAccount);
-
-        account1.withdraw(0);
-        System.out.println("-----------------------------------");
-        System.out.println("Cuentas después del retiro");
-        System.out.println("-----------------------------------");
-        displayAccountDetails(bankAccount);
-
         account1.closeAccount();
-        System.out.println("-----------------------------------");
-        System.out.println("Cuentas después del cierre");
-        System.out.println("-----------------------------------");
-        displayAccountDetails(bankAccount);
-    }
 
-    private static void displayAccountDetails(Map<String, BankAccount> bankAccount) {
-        bankAccount.forEach((id, account) -> {
-            System.out.println("Account ID: " + id);
-            System.out.println("Account Holder: " + account.getAccountHolder());
-            System.out.println("Account Type: " + account.getAccountType());
-            System.out.println("Balance: " + account.getBalance());
-            System.out.println("Status: " + account.getStatus());
-            System.out.println("--------------------------------");
-        });
+        account2.deposit(150);
+        account2.withdraw(50);
+        account2.closeAccount();
+
+        /**
+         * Se usa el patron de diseño Singleton para qe tenga una única instancia.
+         */
+        System.out.println("------------ Cuentas después de las operaciones ------------");
+        AccountManager accountManager = AccountManager.getInstance();
+        accountManager.addAccount(account1);
+        accountManager.addAccount(account2);
+        accountManager.getAccount("123al");
+        accountManager.displayAccounts();
     }
 }
